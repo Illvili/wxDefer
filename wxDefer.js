@@ -3,6 +3,8 @@
  * WeChat API jQuery-like interface
  */
 
+var isFunction = _ => 'function' == typeof _
+
 var Deferred = function () {
     var STATE_PENDING  = 'pending',
         STATE_RESOLVED = 'resolved',
@@ -10,8 +12,6 @@ var Deferred = function () {
 
     var self = this
     var res = [this]
-
-    var isFunction = _ => 'function' == typeof _
 
     // resolve
     var resolve_function_list = [],
@@ -112,6 +112,56 @@ var Deferred = function () {
     return this
 }
 
-module.exports = {
-    Deferred
+var MakeDeferred = function (wxAPI) {
+    return function (config) {
+        var defer = new Deferred()
+
+        // transform success -> done
+        if (!!config['success']) {
+            if (isFunction(config.success)) {
+                defer.done(config.success)
+            }
+
+            delete(config.success)
+        }
+
+        // transform fail -> fail
+        if (!!config['fail']) {
+            if (isFunction(config.fail)) {
+                defer.fail(config.fail)
+            }
+
+            delete(config.fail)
+        }
+
+        // transform complete -> always
+        if (!!config['complete']) {
+            if (isFunction(config.complete)) {
+                defer.always(config.complete)
+            }
+
+            delete(config.complete)
+        }
+
+        // register new success and fail
+        config.success = function (...args) {
+            defer.resolveWith(this, ...args)
+        }
+        config.fail = function (...args) {
+            defer.rejectWith(this, ...args)
+        }
+
+        wxAPI.call(wx, config)
+
+        return defer
+    }
 }
+
+var exportObj = { Deferred }
+var wxAPIList = ['request', 'uploadFile', 'downloadFile', 'connectSocket', 'onSocketOpen', 'onSocketError', 'sendSocketMessage', 'onSocketMessage', 'closeSocket', 'onSocketClose']
+
+for (var api of wxAPIList) {
+    exportObj[api] = MakeDeferred(wx[api])
+}
+
+module.exports = exportObj
