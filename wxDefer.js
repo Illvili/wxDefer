@@ -1,6 +1,9 @@
 /*
  * wxDefer
  * WeChat API jQuery-like interface
+ * 
+ * Illvili.me
+ * v0.1
  */
 
 var isFunction = _ => 'function' == typeof _
@@ -49,7 +52,7 @@ var Deferred = function () {
         }
     }
 
-    // _state = pending | resolve | reject
+    // _state = pending | resolved | rejected
     var state = STATE_PENDING
 
     // state()
@@ -157,8 +160,73 @@ var MakeDeferred = function (wxAPI) {
     }
 }
 
-var exportObj = { Deferred }
-var wxAPIList = ['request', 'uploadFile', 'downloadFile', 'connectSocket', 'onSocketOpen', 'onSocketError', 'sendSocketMessage', 'onSocketMessage', 'closeSocket', 'onSocketClose']
+var exportObj = { Deferred, MakeDeferred }
+var wxAPIList = [
+    // 网络 API 列表
+    'request', // 发起网络请求
+    'uploadFile', // 上传文件
+    'downloadFile', // 下载文件
+    'connectSocket', // 创建 WebSocket 连接
+    // WebSocket 相关接口均为只接受回调函数
+    // 'onSocketOpen', // 监听 WebSocket 打开
+    // 'onSocketError', // 监听 WebSocket 错误
+    // 'sendSocketMessage', // 发送 WebSocket 消息
+    // 'onSocketMessage', // 接受 WebSocket 消息
+    // 'closeSocket', // 关闭 WebSocket 连接
+    // 'onSocketClose', // 监听 WebSocket 关闭
+
+    // 媒体 API 列表
+    'chooseImage', // 从相册选择图片，或者拍照
+    'previewImage', // 预览图片
+    'startRecord', // 开始录音
+    // 'stopRecord', // 结束录音
+    'playVoice', // 播放语音
+    // 'pauseVoice', // 暂停播放语音
+    'stopVoice', // 结束播放语音
+    'getBackgroundAudioPlayerState', // 获取音乐播放状态
+    'playBackgroundAudio', // 播放音乐
+    // 'pauseBackgroundAudio', // 暂停播放音乐
+    'seekBackgroundAudio', // 控制音乐播放进度
+    // 'stopBackgroundAudio', // 停止播放音乐
+    // 'onBackgroundAudioPlay', // 监听音乐开始播放
+    // 'onBackgroundAudioPause', // 监听音乐暂停
+    // 'onBackgroundAudioStop', // 监听音乐结束
+    'chooseVideo', // 从相册选择视频，或者拍摄
+    'saveFile', // 保存文件
+
+    // 数据 API 列表
+    'getStorage', // 获取本地数据缓存
+    'setStorage', // 设置本地数据缓存
+    // 'clearStorage', // 清理本地数据缓存
+
+    // 位置 API 列表
+    'getLocation', // 获取当前位置
+    'openLocation', // 打开内置地图
+
+    // 设备 API 列表
+    'getNetworkType', // 获取网络类型
+    'getSystemInfo', // 获取系统信息
+    // 'onAccelerometerChange', // 监听重力感应数据
+    // 'onCompassChange', // 监听罗盘数据
+
+    // 界面 API 列表
+    'setNavigationBarTitle', // 设置当前页面标题
+    // 'showNavigationBarLoading', // 显示导航条加载动画
+    // 'hideNavigationBarLoading', // 隐藏导航条加载动画
+    'navigateTo', // 新窗口打开页面
+    'redirectTo', // 原窗口打开页面
+    // 'navigateBack', // 退回上一个页面
+    // 'createAnimation', // 动画
+    // 'createContext', // 创建绘图上下文
+    // 'drawCanvas', // 绘图
+    // 'hideKeyboard', // 隐藏键盘
+    // 'stopPullDownRefresh', // 停止下拉刷新动画
+
+    // 开放接口
+    'login', // 登录
+    'getUserInfo', // 获取用户信息
+    'requestPayment' // 发起微信支付
+]
 
 for (var api of wxAPIList) {
     exportObj[api] = MakeDeferred(wx[api])
