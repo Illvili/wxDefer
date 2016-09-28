@@ -1,5 +1,5 @@
 # wxDefer
-> 将微信 `{ success: callback, fail: callback, complete: callback }` 转化为类似 `jQuery.Deferred` 的形式
+> 将微信小程序中接受 `{ success: callback, fail: callback, complete: callback }` 的函数转化为类似 `jQuery.Deferred` 的形式
 
 ### 原接口对比`wxDefer`
 
