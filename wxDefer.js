@@ -98,7 +98,7 @@ var Deferred = function () {
     }
 
     // rejectWith(_thisObj, ...args)
-    this.rejectWith = function (_thisObj, ...args) {
+    this.rejectWith = function (...args) {
         if (STATE_PENDING == state) {
             state = STATE_REJECTED
             res = args
