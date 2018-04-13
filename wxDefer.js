@@ -1,9 +1,9 @@
 /*
  * wxDefer
- * WeChat API jQuery-like interface
+ * WeChat API jQuery Deferred-like interface
  * 
  * Illvili.me
- * v0.1
+ * v1.0
  */
 
 var isFunction = _ => 'function' == typeof _
@@ -162,70 +162,333 @@ var MakeDeferred = function (wxAPI) {
 
 var exportObj = { Deferred, MakeDeferred }
 var wxAPIList = [
-    // 网络 API 列表
-    'request', // 发起网络请求
-    'uploadFile', // 上传文件
-    'downloadFile', // 下载文件
-    'connectSocket', // 创建 WebSocket 连接
-    // WebSocket 相关接口均为只接受回调函数
-    // 'onSocketOpen', // 监听 WebSocket 打开
-    // 'onSocketError', // 监听 WebSocket 错误
-    // 'sendSocketMessage', // 发送 WebSocket 消息
-    // 'onSocketMessage', // 接受 WebSocket 消息
-    // 'closeSocket', // 关闭 WebSocket 连接
-    // 'onSocketClose', // 监听 WebSocket 关闭
+    // 网络
+    // 发起请求
+    wx.request,
+    // 上传、下载
+    wx.uploadFile,
+    wx.downloadFile,
+    // WebSocket
+    wx.connectSocket,
+    // wx.onSocketOpen
+    // wx.onSocketError
+    wx.sendSocketMessage,
+    // wx.onSocketMessage
+    wx.closeSocket,
+    // wx.onSocketClose
+    // SocketTask
 
-    // 媒体 API 列表
-    'chooseImage', // 从相册选择图片，或者拍照
-    'previewImage', // 预览图片
-    'startRecord', // 开始录音
-    // 'stopRecord', // 结束录音
-    'playVoice', // 播放语音
-    // 'pauseVoice', // 暂停播放语音
-    'stopVoice', // 结束播放语音
-    'getBackgroundAudioPlayerState', // 获取音乐播放状态
-    'playBackgroundAudio', // 播放音乐
-    // 'pauseBackgroundAudio', // 暂停播放音乐
-    'seekBackgroundAudio', // 控制音乐播放进度
-    // 'stopBackgroundAudio', // 停止播放音乐
-    // 'onBackgroundAudioPlay', // 监听音乐开始播放
-    // 'onBackgroundAudioPause', // 监听音乐暂停
-    // 'onBackgroundAudioStop', // 监听音乐结束
-    'chooseVideo', // 从相册选择视频，或者拍摄
-    'saveFile', // 保存文件
+    // 媒体
+    // 图片
+    wx.chooseImage,
+    wx.previewImage,
+    wx.getImageInfo,
+    wx.saveImageToPhotosAlbum,
+    // 录音
+    wx.startRecord,
+    // wx.stopRecord
+    // 录音管理
+    // wx.getRecorderManager
+    // 音频播放控制
+    wx.playVoice,
+    // wx.pauseVoice
+    // wx.stopVoice
+    // 音乐播放控制
+    wx.getBackgroundAudioPlayerState,
+    wx.playBackgroundAudio,
+    // wx.pauseBackgroundAudio
+    wx.seekBackgroundAudio,
+    // wx.stopBackgroundAudio
+    // wx.onBackgroundAudioPlay
+    // wx.onBackgroundAudioPause
+    // wx.onBackgroundAudioStop
+    // 背景音频播放管理
+    // wx.getBackgroundAudioManager
+    // 音频组件控制
+    wx.createAudioContext,
+    wx.createInnerAudioContext,
+    // 视频
+    wx.chooseVideo,
+    wx.saveVideoToPhotosAlbum,
+    // 视频组件控制
+    wx.createVideoContext,
+    // 相机组件控制
+    wx.createCameraContext,
+    // 实时音视频
+    wx.createLivePlayerContext,
+    wx.createLivePusherContext,
 
-    // 数据 API 列表
-    'getStorage', // 获取本地数据缓存
-    'setStorage', // 设置本地数据缓存
-    // 'clearStorage', // 清理本地数据缓存
+    // 文件
+    wx.saveFile,
+    wx.getFileInfo,
+    wx.getSavedFileList,
+    wx.getSavedFileInfo,
+    wx.removeSavedFile,
+    wx.openDocument,
 
-    // 位置 API 列表
-    'getLocation', // 获取当前位置
-    'openLocation', // 打开内置地图
+    // 数据缓存
+    wx.setStorage,
+    // wx.setStorageSync
+    wx.getStorage,
+    // wx.getStorageSync
+    wx.getStorageInfo,
+    // wx.getStorageInfoSync
+    wx.removeStorage,
+    // wx.removeStorageSync
+    wx.clearStorage,
+    // wx.clearStorageSync
 
-    // 设备 API 列表
-    'getNetworkType', // 获取网络类型
-    'getSystemInfo', // 获取系统信息
-    // 'onAccelerometerChange', // 监听重力感应数据
-    // 'onCompassChange', // 监听罗盘数据
+    // 位置
+    // 获取位置
+    wx.getLocation,
+    wx.chooseLocation,
+    // 查看位置
+    wx.openLocation,
+    // 地图组件控制
+    wx.createMapContext,
 
-    // 界面 API 列表
-    'setNavigationBarTitle', // 设置当前页面标题
-    // 'showNavigationBarLoading', // 显示导航条加载动画
-    // 'hideNavigationBarLoading', // 隐藏导航条加载动画
-    'navigateTo', // 新窗口打开页面
-    'redirectTo', // 原窗口打开页面
-    // 'navigateBack', // 退回上一个页面
-    // 'createAnimation', // 动画
-    // 'createContext', // 创建绘图上下文
-    // 'drawCanvas', // 绘图
-    // 'hideKeyboard', // 隐藏键盘
-    // 'stopPullDownRefresh', // 停止下拉刷新动画
+    // 设备
+    // 系统信息
+    wx.getSystemInfo,
+    // wx.getSystemInfoSync
+    wx.canIUse,
+    // 网络状态
+    wx.getNetworkType,
+    // wx.onNetworkStatusChange
+    // 加速度计
+    // wx.onAccelerometerChange
+    wx.startAccelerometer,
+    wx.stopAccelerometer,
+    // 罗盘
+    // wx.onCompassChange
+    wx.startCompass,
+    wx.stopCompass,
+    // 拨打电话
+    wx.makePhoneCall,
+    // 扫码
+    wx.scanCode,
+    // 剪贴板
+    wx.setClipboardData,
+    wx.getClipboardData,
+    // 蓝牙
+    wx.openBluetoothAdapter,
+    wx.closeBluetoothAdapter,
+    wx.getBluetoothAdapterState,
+    // wx.onBluetoothAdapterStateChange
+    wx.startBluetoothDevicesDiscovery,
+    wx.stopBluetoothDevicesDiscovery,
+    wx.getBluetoothDevices,
+    wx.getConnectedBluetoothDevices,
+    // wx.onBluetoothDeviceFound
+    wx.createBLEConnection,
+    wx.closeBLEConnection,
+    wx.getBLEDeviceServices,
+    wx.getBLEDeviceCharacteristics,
+    wx.readBLECharacteristicValue,
+    wx.writeBLECharacteristicValue,
+    wx.notifyBLECharacteristicValueChange,
+    // wx.onBLEConnectionStateChange
+    // wx.onBLECharacteristicValueChange
+    // iBeacon
+    wx.startBeaconDiscovery,
+    wx.stopBeaconDiscovery,
+    wx.getBeacons,
+    // wx.onBeaconUpdate
+    // wx.onBeaconServiceChange
+    // 屏幕亮度
+    wx.setScreenBrightness,
+    wx.getScreenBrightness,
+    wx.setKeepScreenOn,
+    // 用户截屏事件
+    // wx.onUserCaptureScreen
+    // 振动
+    wx.vibrateLong,
+    wx.vibrateShort,
+    // 手机联系人
+    wx.addPhoneContact,
+    // NFC
+    wx.getHCEState,
+    wx.startHCE,
+    wx.stopHCE,
+    // wx.onHCEMessage
+    wx.sendHCEMessage,
+    // Wi-Fi
+    wx.startWifi,
+    wx.stopWifi,
+    wx.connectWifi,
+    wx.getWifiList,
+    // wx.onGetWifiList
+    wx.setWifiList,
+    // wx.onWifiConnected
+    wx.getConnectedWifi,
+
+    // 界面
+    // 交互反馈
+    wx.showToast,
+    wx.showLoading,
+    wx.hideToast,
+    wx.hideLoading,
+    wx.showModal,
+    wx.showActionSheet,
+    // 设置导航条
+    wx.setNavigationBarTitle,
+    wx.showNavigationBarLoading,
+    wx.hideNavigationBarLoading,
+    wx.setNavigationBarColor,
+    // 设置tabBar
+    wx.setTabBarBadge,
+    wx.removeTabBarBadge,
+    wx.showTabBarRedDot,
+    wx.hideTabBarRedDot,
+    wx.setTabBarStyle,
+    wx.setTabBarItem,
+    wx.showTabBar,
+    wx.hideTabBar,
+    // 设置置顶信息
+    wx.setTopBarText,
+    // 导航
+    wx.navigateTo,
+    wx.redirectTo,
+    wx.switchTab,
+    wx.navigateBack,
+    wx.reLaunch,
+    // 动画
+    wx.createAnimation,
+    // 位置
+    wx.pageScrollTo,
+    // 绘图
+    // intro
+    // coordinates
+    // gradient
+    // reference
+    // color
+    wx.createCanvasContext,
+    wx.createContext,
+    wx.drawCanvas,
+    wx.canvasToTempFilePath,
+    wx.canvasGetImageData,
+    wx.canvasPutImageData,
+    // setFillStyle
+    // setStrokeStyle
+    // setShadow
+    // createLinearGradient
+    // createCircularGradient
+    // addColorStop
+    // setLineWidth
+    // setLineCap
+    // setLineJoin
+    // setLineDash
+    // setMiterLimit
+    // rect
+    // fillRect
+    // strokeRect
+    // clearRect
+    // fill
+    // stroke
+    // beginPath
+    // closePath
+    // moveTo
+    // lineTo
+    // arc
+    // bezierCurveTo
+    // quadraticCurveTo
+    // scale
+    // rotate
+    // translate
+    // clip
+    // setFontSize
+    // fillText
+    // setTextAlign
+    // setTextBaseline
+    // drawImage
+    // setGlobalAlpha
+    // save
+    // restore
+    // draw
+    // getActions
+    // clearActions
+    // measureText
+    // globalCompositeOperation
+    // arcTo
+    // strokeText
+    // lineDashOffset
+    // createPattern
+    // shadowBlur
+    // shadowColor
+    // shadowOffsetX
+    // shadowOffsetY
+    // font
+    // transform
+    // setTransform
+    // 下拉刷新
+    // Page.onPullDownRefresh
+    wx.startPullDownRefresh,
+    // wx.stopPullDownRefresh,
+    // WXML节点信息
+    // wx.createSelectorQuery,
+    // selectorQuery.in
+    // selectorQuery.select
+    // selectorQuery.selectAll
+    // selectorQuery.selectViewport
+    // nodesRef.boundingClientRect
+    // nodesRef.scrollOffset
+    // nodesRef.fields
+    // selectorQuery.exec
+    // WXML节点布局相交状态
+    // wx.createIntersectionObserver,
+    // intersectionObserver.relativeTo
+    // intersectionObserver.relativeToViewport
+    // intersectionObserver.observe
+    // intersectionObserver.disconnect
+
+    // 第三方平台
+    wx.getExtConfig,
+    // wx.getExtConfigSync
 
     // 开放接口
-    'login', // 登录
-    'getUserInfo', // 获取用户信息
-    'requestPayment' // 发起微信支付
+    // 登录
+    wx.login,
+    wx.checkSession,
+    // 授权
+    wx.authorize,
+    // 用户信息
+    wx.getUserInfo,
+    // getPhoneNumber
+    // 微信支付
+    wx.requestPayment,
+    // 转发
+    // Page.onShareAppMessage
+    wx.showShareMenu,
+    wx.hideShareMenu,
+    wx.updateShareMenu,
+    wx.getShareInfo,
+    // 收货地址
+    wx.chooseAddress,
+    // 卡券
+    wx.addCard,
+    wx.openCard,
+    // 设置
+    wx.openSetting,
+    wx.getSetting,
+    // 微信运动
+    wx.getWeRunData,
+    // 打开小程序
+    wx.navigateToMiniProgram,
+    wx.navigateBackMiniProgram,
+    // 打开APP
+    // launchApp
+    // 获取发票抬头
+    wx.chooseInvoiceTitle,
+    // 生物认证
+    wx.checkIsSupportSoterAuthentication,
+    wx.startSoterAuthentication,
+    wx.checkIsSoterEnrolledInDevice,
+
+    // 更新
+    // wx.getUpdateManager
+
+    // 多线程
+    // wx.createWorker,
 ]
 
 for (var api of wxAPIList) {
