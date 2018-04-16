@@ -37,7 +37,7 @@ function getSummaryTree($root) {
             !item.name.endsWith('Sync') &&
             // getManager
             !item.name.endsWith('Manager') &&
-            // no in black list
+            // not in black list
             -1 == nonThenableFunctionList.indexOf(item.name)
         ) {
             return item.name + ','
