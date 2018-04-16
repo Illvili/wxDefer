@@ -3,7 +3,7 @@
  * WeChat API jQuery Deferred-like interface
  * 
  * Illvili.me
- * v1.0.1
+ * v1.0.2
  */
 
 var isFunction = _ => 'function' == typeof _
@@ -118,6 +118,7 @@ var Deferred = function () {
 var MakeDeferred = function (wxAPI) {
     return function (config) {
         var defer = new Deferred()
+        config = config || {}
 
         // transform success -> done
         if (!!config['success']) {
