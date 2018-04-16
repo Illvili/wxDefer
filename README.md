@@ -45,39 +45,7 @@ wxDefer.request({
 
 [完整的微信API列表](https://mp.weixin.qq.com/debug/wxadoc/dev/api/)
 
-* 网络 API 列表
-    * `request`: 发起网络请求
-    * `uploadFile`: 上传文件
-    * `downloadFile`: 下载文件
-    * `connectSocket`: 创建 WebSocket 连接
-* 媒体 API 列表
-    * `chooseImage`: 从相册选择图片，或者拍照
-    * `previewImage`: 预览图片
-    * `startRecord`: 开始录音
-    * `playVoice`: 播放语音
-    * `stopVoice`: 结束播放语音
-    * `getBackgroundAudioPlayerState`: 获取音乐播放状态
-    * `playBackgroundAudio`: 播放音乐
-    * `seekBackgroundAudio`: 控制音乐播放进度
-    * `chooseVideo`: 从相册选择视频，或者拍摄
-    * `saveFile`: 保存文件
-* 数据 API 列表
-    * `getStorage`: 获取本地数据缓存
-    * `setStorage`: 设置本地数据缓存
-* 位置 API 列表
-    * `getLocation`: 获取当前位置
-    * `openLocation`: 打开内置地图
-* 设备 API 列表
-    * `getNetworkType`: 获取网络类型
-    * `getSystemInfo`: 获取系统信息
-* 界面 API 列表
-    * `setNavigationBarTitle`: 设置当前页面标题
-    * `navigateTo`: 新窗口打开页面
-    * `redirectTo`: 原窗口打开页面
-* 开放接口
-    * `login`: 登录
-    * `getUserInfo`: 获取用户信息
-    * `requestPayment`: 发起微信支付
+目前同步了微信所有可使用`{ success: callback, fail: callback, complete: callback }`参数的API
 
 ### 其它 API
 
@@ -124,4 +92,5 @@ var demoFunctionDeferred = wxDefer.MakeDeferred(demoFunction)
 
 ### 更新
 
+* 2018.4.13 v1.0 同步了微信小程序函数列表
 * 2016.9.28 v0.1 初始版本
