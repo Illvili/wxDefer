@@ -92,5 +92,6 @@ var demoFunctionDeferred = wxDefer.MakeDeferred(demoFunction)
 
 ### 更新
 
-* 2018.4.13 v1.0 同步了微信小程序函数列表
-* 2016.9.28 v0.1 初始版本
+* 2018.4.13 v1.0.1 修复错误
+* 2018.4.13 v1.0.0 同步了微信小程序函数列表
+* 2016.9.28 v0.1.0 初始版本

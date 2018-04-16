@@ -40,11 +40,12 @@ function getSummaryTree($root) {
             // not in black list
             -1 == nonThenableFunctionList.indexOf(item.name)
         ) {
-            return item.name + ','
+            return `'${item.name.slice(3)}',`
         } else if (/[^a-z\.]/i.test(item.name)) {
             return false
         } else {
-            return `// ${item.name}`
+            // return `// ${item.name}`
+            return false
         }
     }))
 }
